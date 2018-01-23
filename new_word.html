@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>New Words</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: rgb(30, 30, 30);
+            color: rgb(212, 212, 212);
+        }
+        input, button, textarea {
+            margin: 30px 5px;
+            background: rgb(30, 30, 30);
+            color: rgb(212, 212, 212);
+            border: 1px solid;
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        textarea {
+            width: 30%;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+<form name="mainForm">
+    <input type="number" name="month" id="month">
+    <input type="number" name="day" id="day">
+
+    <textarea name="heading" id="heading"></textarea>
+    <textarea name="paragraph" id="paragraph"></textarea>
+
+    <button type="button" onclick="updateDocument()">Send</button>
+</form>
+
+<script src="superagent.js"></script>
+<script>
+    function updateDocument() {
+        const form = document.forms.mainForm
+        const req = window.superagent
+        const url = "http://fnit.site:5984/adler-words/" + form.month.value
+        
+        req.get(url).end((err, res) => {
+            if (err) {
+                alert("GET Error")
+                return
+            }
+
+            let payload = res.body
+
+            if (!("days" in payload)) {
+                payload["days"] = {}
+            }
+
+            payload["days"][form.day.value] = {
+                "heading": form.heading.value,
+                "paragraph": form.paragraph.value
+            }
+            
+            req.put(url).send(payload).set('accept', 'json').end((err, res) => {
+                if (err) {
+                    alert("POST Error")
+                    return
+                }
+
+                form.day.value = ""
+                form.heading.value = ""
+                form.paragraph.value = ""
+                form.day.focus()
+            })
+            
+        })
+
+    }
+</script>
+</body>
+</html>
