@@ -35,7 +35,7 @@ http.get(couchdb_url, (res) => {
         let heading = todays_word["heading"]
         let paragraph = todays_word["paragraph"]
 
-        let content = `\`\`\`\n${heading}\n${paragraph}\n\`\`\``
+        let content = `\`\`\`\n${heading}\n${paragraph}\n${month}月${day}日\`\`\``
 
         sendWebhook(content)
     })
