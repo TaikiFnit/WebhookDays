@@ -1,4 +1,4 @@
-#!/Users/taikifnit/.nodebrew/current/bin/node
+#!/home/fnit/.nodebrew/current/bin/node
 
 let http = require('http')
 let https = require('https')
