@@ -11,6 +11,7 @@ const couchdb_url = "http://fnit.site:5984/adler-words/" + month
 const discord_host = "discordapp.com"
 const discord_path = "/api/webhooks/403393085364764672/C-BW2CWmAiJ6SQN_LeS_UZlyCZXXERrRfM40eL_vKth7QTNPM4JMP3nDRwp3UPwBXnAc"
 
+// tweet days word
 http.get(couchdb_url, (res) => {
     res.setEncoding('utf8')
 
@@ -36,6 +37,15 @@ http.get(couchdb_url, (res) => {
         let paragraph = todays_word["paragraph"]
 
         let content = `\`\`\`\n${heading}\n\n${paragraph} --- ${month}月${day}日\`\`\``
+
+        // tweet month introduction 
+        if (day == 1) {
+            if ( "introduction" in words_document) {
+                let introduction = words_document["introduction"]
+
+                sendWebhook(introduction)
+            }
+        }
 
         sendWebhook(content)
     })
