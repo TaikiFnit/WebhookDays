@@ -36,7 +36,7 @@ http.get(couchdb_url, (res) => {
         let heading = todays_word["heading"]
         let paragraph = todays_word["paragraph"]
 
-        let content = `\`\`\`\n${heading}\n\n${paragraph} --- ${month}月${day}日\`\`\``
+        let content = `\`\`\`\n${month}月${day}日\n\n${heading}\n\n${paragraph}\n\`\`\`\n\n`
 
         // tweet month introduction 
         if (day == 1) {

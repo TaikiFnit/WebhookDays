@@ -1,11 +1,14 @@
-#!/home/fnit/.nodebrew/current/bin/node
-
 let http = require('http')
 let https = require('https')
 
-const now = new Date()
-const month = now.getMonth() + 1
-const day = now.getDate()
+if (!process.argv[2] || !process.argv[3] || !process.argv[4]) {
+    console.log("node [file_name] [target_month] [day_from] [day_to]")
+    return
+}
+
+const month = process.argv[2]
+const day_from = process.argv[3]
+const day_to = process.argv[4]
 
 const couchdb_url = "http://fnit.site:5984/adler-words/" + month
 const discord_host = "discordapp.com"
@@ -15,6 +18,7 @@ const discord_path = "/api/webhooks/403393085364764672/C-BW2CWmAiJ6SQN_LeS_UZlyC
 http.get(couchdb_url, (res) => {
     res.setEncoding('utf8')
 
+    console.log("Fnit")
     if (res.statusCode != 200) {
         return
     }
@@ -28,20 +32,25 @@ http.get(couchdb_url, (res) => {
     res.on('end', (res) => {
         let words_document = JSON.parse(body)
         
-        if ( !(day in words_document["days"])) {
-            return
-        }
-        
-        let todays_word = words_document["days"][day]
-        let heading = todays_word["heading"]
-        let paragraph = todays_word["paragraph"]
+        let content = ""
 
-        let content = `\`\`\`\n${heading}\n\n${paragraph} --- ${month}月${day}日\`\`\``
+        for(let day = day_from; day <= day_to; day++) {
+
+            if ( !(day in words_document["days"])) {
+                break;
+            }
+
+            let todays_word = words_document["days"][day]
+            let heading = todays_word["heading"]
+            let paragraph = todays_word["paragraph"]
+    
+            content += `\`\`\`\n${month}月${day}日\n\n${heading}\n\n${paragraph}\n\`\`\`\n\n`
+        }
 
         // tweet month introduction 
-        if (day == 1) {
+        if (day_from == 1) {
             if ( "introduction" in words_document) {
-                let introduction = words_document["introduction"]
+                let introduction = `${words_document["introduction"]}`
 
                 sendWebhook(introduction)
             }
