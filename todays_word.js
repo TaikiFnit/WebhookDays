@@ -7,7 +7,7 @@ const now = new Date()
 const month = now.getMonth() + 1
 const day = now.getDate()
 
-const couchdb_url = "http://fnit.site:5984/adler-words/" + month
+const couchdb_url = "http://fnit.tech:5984/adler-words/" + month
 const discord_host = "discordapp.com"
 const discord_path = "/api/webhooks/403393085364764672/C-BW2CWmAiJ6SQN_LeS_UZlyCZXXERrRfM40eL_vKth7QTNPM4JMP3nDRwp3UPwBXnAc"
 
