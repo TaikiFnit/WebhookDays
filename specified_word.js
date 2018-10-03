@@ -10,7 +10,7 @@ const month = process.argv[2]
 const day_from = process.argv[3]
 const day_to = process.argv[4]
 
-const couchdb_url = "http://fnit.tech:5984/adler-words/" + month
+const couchdb_url = "http://localhost:5984/adler-words/" + month
 const discord_host = "discordapp.com"
 const discord_path = "/api/webhooks/403393085364764672/C-BW2CWmAiJ6SQN_LeS_UZlyCZXXERrRfM40eL_vKth7QTNPM4JMP3nDRwp3UPwBXnAc"
 
